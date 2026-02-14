@@ -1,0 +1,1162 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Club Café — Frontend</title>
+    <style>
+        :root {
+            --bg1: #eef2ff;
+            --bg2: #fdf2f8;
+            --card: #ffffffcc;
+            --stroke: #e5e7eb;
+            --text: #0f172a;
+            --muted: #64748b;
+            --ok: #10b981;
+            --warn: #f59e0b;
+            --bad: #ef4444;
+            --primary: #1d4ed8;
+            --primary2: #0ea5e9;
+            --danger: #e11d48;
+            --shadow: 0 18px 45px rgba(2, 6, 23, .12);
+            --radius: 18px;
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+            color: var(--text);
+            background: radial-gradient(1200px 600px at 20% 10%, var(--bg2), transparent),
+                radial-gradient(1200px 600px at 80% 20%, var(--bg1), transparent),
+                #f8fafc;
+            min-height: 100vh;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 32px 14px;
+        }
+
+        .wrap {
+            width: min(1100px, 100%);
+        }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 14px;
+            padding: 0 4px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 800;
+            font-size: 22px;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 999px;
+            background: linear-gradient(135deg, #22c55e, #a855f7, #f97316);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, .12);
+        }
+
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 7px 12px;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 12px;
+            border: 1px solid var(--stroke);
+            background: #ffffffa6;
+            backdrop-filter: blur(10px);
+        }
+
+        .pill.ok {
+            color: #065f46
+        }
+
+        .pill.bad {
+            color: #7f1d1d
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--stroke);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(10px);
+            overflow: hidden;
+        }
+
+        .cardHead {
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--stroke);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .subtitle {
+            color: var(--muted);
+            font-size: 13px;
+            margin-top: 4px;
+            font-weight: 600;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1.2fr .8fr;
+            gap: 14px;
+            padding: 14px;
+        }
+
+        @media (max-width: 980px) {
+            .grid {
+                grid-template-columns: 1fr
+            }
+        }
+
+        .panel {
+            background: #fff;
+            border: 1px solid var(--stroke);
+            border-radius: 16px;
+            padding: 14px;
+        }
+
+        .panelTitle {
+            font-weight: 800;
+            font-size: 14px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .hint {
+            font-size: 12px;
+            color: var(--muted);
+            line-height: 1.25;
+            margin-top: -6px;
+            margin-bottom: 10px;
+            font-weight: 650;
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 640px) {
+            .row {
+                grid-template-columns: 1fr
+            }
+        }
+
+        label {
+            display: block;
+            font-size: 12px;
+            color: var(--muted);
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 12px;
+            border: 1px solid var(--stroke);
+            outline: none;
+            font-size: 14px;
+            background: #fff;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            border-color: rgba(29, 78, 216, .55);
+            box-shadow: 0 0 0 4px rgba(29, 78, 216, .12)
+        }
+
+        .btns {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        button {
+            border: none;
+            border-radius: 999px;
+            padding: 10px 14px;
+            font-weight: 900;
+            cursor: pointer;
+            transition: transform .05s ease, filter .12s ease;
+        }
+
+        button:active {
+            transform: translateY(1px)
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary2));
+            color: white
+        }
+
+        .btn-secondary {
+            background: #0f172a;
+            color: white
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, var(--danger), #fb7185);
+            color: white
+        }
+
+        .btn-ghost {
+            background: #fff;
+            border: 1px solid var(--stroke);
+            color: #0f172a
+        }
+
+        .status {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-top: 12px;
+            padding: 10px 12px;
+            border-radius: 14px;
+            border: 1px solid var(--stroke);
+            background: #fff;
+            font-weight: 800;
+            color: var(--muted);
+        }
+
+        .status .ic {
+            width: 22px;
+            height: 22px;
+            border-radius: 999px;
+            display: grid;
+            place-items: center;
+            background: #f1f5f9;
+            font-size: 12px;
+            flex: 0 0 auto;
+        }
+
+        .status.ok {
+            border-color: rgba(16, 185, 129, .35)
+        }
+
+        .status.ok .ic {
+            background: rgba(16, 185, 129, .15);
+            color: #065f46
+        }
+
+        .status.bad {
+            border-color: rgba(239, 68, 68, .35)
+        }
+
+        .status.bad .ic {
+            background: rgba(239, 68, 68, .15);
+            color: #7f1d1d
+        }
+
+        .status.warn {
+            border-color: rgba(245, 158, 11, .35)
+        }
+
+        .status.warn .ic {
+            background: rgba(245, 158, 11, .15);
+            color: #7c2d12
+        }
+
+        .rightTop {
+            display: grid;
+            gap: 10px;
+        }
+
+        .saldoBox {
+            background: #fff;
+            border: 1px solid var(--stroke);
+            border-radius: 16px;
+            padding: 14px;
+        }
+
+        .saldoBox .k {
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 900
+        }
+
+        .saldoBox .v {
+            font-size: 34px;
+            font-weight: 950;
+            line-height: 1;
+            margin-top: 8px;
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+        }
+
+        .saldoBox .v span {
+            font-size: 14px;
+            color: var(--muted);
+            font-weight: 900
+        }
+
+        .mini {
+            margin-top: 8px;
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .endpoint {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            font-size: 12px;
+            color: #0f172a;
+            background: #f8fafc;
+            border: 1px solid var(--stroke);
+            border-radius: 12px;
+            padding: 8px 10px;
+            display: inline-block;
+            margin-top: 8px;
+        }
+
+        .tableWrap {
+            padding: 0 14px 14px 14px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            overflow: hidden;
+            background: #fff;
+            border: 1px solid var(--stroke);
+            border-radius: 16px;
+        }
+
+        th,
+        td {
+            padding: 10px 10px;
+            border-bottom: 1px solid var(--stroke);
+            font-size: 13px;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        th {
+            font-size: 12px;
+            color: var(--muted);
+            font-weight: 950;
+            background: #f8fafc;
+        }
+
+        tr:last-child td {
+            border-bottom: none
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-weight: 950;
+            font-size: 11px;
+            border: 1px solid var(--stroke);
+            background: #fff;
+        }
+
+        .b-suma {
+            border-color: rgba(16, 185, 129, .35);
+            background: rgba(16, 185, 129, .10);
+            color: #065f46
+        }
+
+        .b-canje {
+            border-color: rgba(239, 68, 68, .35);
+            background: rgba(239, 68, 68, .10);
+            color: #7f1d1d
+        }
+
+        .muted {
+            color: var(--muted);
+            font-weight: 800;
+            font-size: 12px
+        }
+
+        .right {
+            text-align: right
+        }
+
+        .split {
+            height: 12px
+        }
+
+        .list {
+            border: 1px solid var(--stroke);
+            border-radius: 14px;
+            overflow: hidden;
+            background: #fff
+        }
+
+        .listItem {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--stroke);
+            cursor: pointer
+        }
+
+        .listItem:hover {
+            background: #f8fafc
+        }
+
+        .listItem:last-child {
+            border-bottom: none
+        }
+
+        .liTitle {
+            font-weight: 900
+        }
+
+        .liSub {
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 750;
+            margin-top: 2px
+        }
+
+        .liRight {
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 900;
+            white-space: nowrap
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <div class="topbar">
+            <div class="brand"><span class="dot"></span> Club Café</div>
+            <div id="apiPill" class="pill bad">API: comprobando…</div>
+        </div>
+
+        <div class="card">
+            <div class="cardHead">
+                <div>
+                    <div style="font-weight:950;font-size:14px">Frontend (Paso 1 → 5)</div>
+                    <div class="subtitle">Puntos + Movimientos, Sumar/Canjear, Crear Cliente, Sucursales, y
+                        Lista/Buscador de clientes.</div>
+                </div>
+                <div class="pill" style="color:var(--muted)">Debe coincidir con Swagger</div>
+            </div>
+
+            <div class="grid">
+                <!-- IZQUIERDA -->
+                <div class="panel">
+                    <div class="panelTitle">
+                        <span>Consulta / Acciones</span>
+                        <span class="muted">http://127.0.0.1:8000/docs</span>
+                    </div>
+
+                    <div class="row">
+                        <div>
+                            <label>Base API</label>
+                            <input id="baseApi" value="http://127.0.0.1:8000" />
+                            <div class="hint">Debe coincidir con tu Swagger</div>
+                        </div>
+                        <div>
+                            <label>ID Cliente</label>
+                            <input id="clienteId" type="number" min="1" value="1" />
+                            <div class="hint">Se rellena al seleccionar un cliente abajo (Paso 5)</div>
+                        </div>
+                    </div>
+
+                    <div class="btns">
+                        <button class="btn-primary" id="btnVerTodo">Ver puntos (saldo + movimientos)</button>
+                        <button class="btn-secondary" id="btnSoloMov">Solo movimientos</button>
+                        <button class="btn-ghost" id="btnHealth">Revisar API</button>
+                    </div>
+
+                    <div id="status" class="status">
+                        <span class="ic">⏳</span>
+                        <span id="statusText">Listo. Esperando acción…</span>
+                    </div>
+
+                    <div class="split"></div>
+
+                    <!-- SUCURSALES -->
+                    <div class="panelTitle">Sucursales</div>
+                    <div class="row">
+                        <div>
+                            <label>Sucursal seleccionada</label>
+                            <select id="sucursalSelect"></select>
+                            <div class="hint">Se usa para sumar/canjear y crear clientes</div>
+                        </div>
+                        <div style="display:flex;align-items:flex-end">
+                            <button class="btn-ghost" id="btnCargarSucursales" style="width:100%">Cargar
+                                sucursales</button>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div>
+                            <label>Nombre</label>
+                            <input id="s_nombre" value="Club Café Centro" />
+                        </div>
+                        <div>
+                            <label>Código</label>
+                            <input id="s_codigo" value="CENTRO" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div>
+                            <label>Dirección</label>
+                            <input id="s_direccion" value="Av. Centro 123" />
+                        </div>
+                        <div>
+                            <label>Teléfono</label>
+                            <input id="s_telefono" value="+56911111111" />
+                        </div>
+                    </div>
+                    <div class="btns">
+                        <button class="btn-secondary" id="btnCrearSucursal">Crear sucursal</button>
+                    </div>
+
+                    <div id="sucursalStatus" class="status" style="display:none">
+                        <span class="ic">🏬</span>
+                        <span id="sucursalStatusText">…</span>
+                    </div>
+
+                    <div class="split"></div>
+
+                    <!-- CANJEAR -->
+                    <div class="panelTitle">Canjear puntos</div>
+                    <div class="row">
+                        <div>
+                            <label>Puntos</label>
+                            <input id="puntosCanjear" type="number" min="1" value="10" />
+                        </div>
+                        <div>
+                            <label>Motivo</label>
+                            <input id="motivoCanje" value="Canje en caja" />
+                        </div>
+                    </div>
+                    <div class="btns">
+                        <button class="btn-danger" id="btnCanjear">Canjear</button>
+                    </div>
+
+                    <div class="split"></div>
+
+                    <!-- SUMAR -->
+                    <div class="panelTitle">Sumar puntos</div>
+                    <div class="row">
+                        <div>
+                            <label>Pesos</label>
+                            <input id="pesosSumar" type="number" min="1" value="3500" />
+                        </div>
+                        <div>
+                            <label>Motivo</label>
+                            <input id="motivoSumar" value="Compra café" />
+                        </div>
+                    </div>
+                    <div class="btns">
+                        <button class="btn-primary" id="btnSumar">Sumar</button>
+                    </div>
+                    <hr style="border:none;height:1px;background:rgba(0,0,0,.08);margin:14px 0;">
+
+                    <div class="panelTitle">Paso 6: Caja / Compra</div>
+                    <div class="hint">Ingresas monto ($) y calcula puntos automáticamente (100 = 1 punto).</div>
+
+                    <div class="row">
+                        <div>
+                            <div class="label">Monto ($)</div>
+                            <input id="montoCompra" type="number" min="1" value="3500">
+                        </div>
+
+                        <div>
+                            <div class="label">Puntos calculados</div>
+                            <input id="puntosCalculados" type="number" disabled value="0">
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-top:10px">
+                        <div style="grid-column:1 / -1">
+                            <div class="label">Motivo</div>
+                            <input id="motivoCompra" value="Compra en caja">
+                        </div>
+                    </div>
+
+                    <div class="btns" style="margin-top:10px">
+                        <button class="btn-primary" id="btnRegistrarCompra">Registrar compra</button>
+                    </div>
+
+                    <div class="split"></div>
+
+                    <!-- CREAR CLIENTE -->
+                    <div class="panelTitle">Crear cliente</div>
+                    <div class="hint">POST /clientes. Al crear, se actualiza la lista (Paso 5) y se selecciona
+                        automáticamente.</div>
+                    <div class="row">
+                        <div>
+                            <label>RUT</label>
+                            <input id="c_rut" value="12.345.678-9" />
+                        </div>
+                        <div>
+                            <label>Nombre</label>
+                            <input id="c_nombre" value="Juan Pérez" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div>
+                            <label>Teléfono</label>
+                            <input id="c_telefono" value="+56911112222" />
+                        </div>
+                        <div>
+                            <label>Correo</label>
+                            <input id="c_correo" value="juan@clubcafe.cl" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div>
+                            <label>Sucursal ID (del cliente)</label>
+                            <input id="c_sucursal" type="number" min="1" value="1" />
+                        </div>
+                        <div style="display:flex;align-items:flex-end">
+                            <button class="btn-secondary" id="btnCrearCliente" style="width:100%">Crear</button>
+                        </div>
+                    </div>
+
+                    <div id="clienteStatus" class="status" style="display:none">
+                        <span class="ic">👤</span>
+                        <span id="clienteStatusText">…</span>
+                    </div>
+
+                    <div class="split"></div>
+
+                    <!-- PASO 5: CLIENTES -->
+                    <div class="panelTitle">Paso 5: Clientes (lista + buscador)</div>
+                    <div class="row">
+                        <div>
+                            <label>Buscar (RUT o nombre)</label>
+                            <input id="clienteSearch" placeholder="Escribe para filtrar…" />
+                        </div>
+                        <div style="display:flex;align-items:flex-end">
+                            <button class="btn-ghost" id="btnCargarClientes" style="width:100%">Cargar clientes</button>
+                        </div>
+                    </div>
+
+                    <div class="hint">Haz click en un cliente para seleccionarlo (se rellena “ID Cliente” arriba).</div>
+                    <div class="list" id="clientesList">
+                        <div class="listItem">
+                            <div>
+                                <div class="liTitle">Sin datos</div>
+                                <div class="liSub">Presiona “Cargar clientes”.</div>
+                            </div>
+                            <div class="liRight">—</div>
+                        </div>
+                    </div>
+
+                    <div id="clientesStatus" class="status" style="display:none">
+                        <span class="ic">📋</span>
+                        <span id="clientesStatusText">…</span>
+                    </div>
+
+                </div>
+
+                <!-- DERECHA -->
+                <div class="rightTop">
+                    <div class="saldoBox">
+                        <div class="k">Saldo actual</div>
+                        <div class="v"><span id="saldoValue">—</span> <span>pts</span></div>
+                        <div class="mini">Se calcula desde movimientos (SUMA/CANJE)</div>
+                        <div class="endpoint" id="saldoEndpoint">GET /clientes/{id}/puntos</div>
+                    </div>
+
+                    <div class="panel">
+                        <div class="panelTitle">
+                            <span>Movimientos</span>
+                            <span class="muted" id="countMov">0 registro(s)</span>
+                        </div>
+                        <div class="endpoint" id="movEndpoint">GET /clientes/{id}/puntos/movimientos</div>
+                        <div class="hint">Ordenados por fecha (más nuevo arriba) + colores SUMA/CANJE.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tableWrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width:70px">ID</th>
+                            <th style="width:110px">TIPO</th>
+                            <th style="width:90px" class="right">PUNTOS</th>
+                            <th style="width:90px" class="right">PESOS</th>
+                            <th>MOTIVO</th>
+                            <th style="width:180px">FECHA</th>
+                        </tr>
+                    </thead>
+                    <tbody id="movTbody">
+                        <tr>
+                            <td colspan="6" class="muted">Aún no hay datos. Presiona “Ver puntos”.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const $ = (id) => document.getElementById(id);
+
+        function base() { return $("baseApi").value.trim().replace(/\/+$/, ''); }
+        function clienteId() { return parseInt($("clienteId").value || "0", 10); }
+        function selectedSucursalId() { return parseInt(($("sucursalSelect").value || "0"), 10); }
+
+        function setStatus(kind, text) {
+            const box = $("status"), ic = box.querySelector(".ic"), t = $("statusText");
+            box.classList.remove("ok", "bad", "warn");
+            if (kind === "ok") { box.classList.add("ok"); ic.textContent = "✅"; }
+            else if (kind === "bad") { box.classList.add("bad"); ic.textContent = "✖"; }
+            else if (kind === "warn") { box.classList.add("warn"); ic.textContent = "⚠"; }
+            else { ic.textContent = "⏳"; }
+            t.textContent = text;
+        }
+        function setApiPill(ok) {
+            const pill = $("apiPill");
+            pill.classList.remove("ok", "bad");
+            if (ok) { pill.classList.add("ok"); pill.textContent = "API OK"; }
+            else { pill.classList.add("bad"); pill.textContent = "API FAIL"; }
+        }
+        function fmtDate(iso) {
+            if (!iso) return "—";
+            const d = new Date(iso);
+            if (isNaN(d.getTime())) return iso;
+            return d.toLocaleString("es-CL");
+        }
+        function safeJsonText(text) {
+            try { return JSON.stringify(JSON.parse(text), null, 2); } catch { return text; }
+        }
+
+        async function apiHealth() {
+            try {
+                const r = await fetch(`${base()}/health`);
+                if (!r.ok) throw new Error(await r.text());
+                setApiPill(true);
+                setStatus("ok", "Listo ✅ Cargado desde el API.");
+                return true;
+            } catch (e) {
+                setApiPill(false);
+                setStatus("bad", `No se pudo conectar al API: ${String(e).slice(0, 140)}`);
+                return false;
+            }
+        }
+
+        // --------- PUNTOS ----------
+        async function getSaldo() {
+            const id = clienteId();
+            $("saldoEndpoint").textContent = `GET /clientes/${id}/puntos`;
+            const r = await fetch(`${base()}/clientes/${id}/puntos`);
+            if (!r.ok) throw new Error(await r.text());
+            const data = await r.json();
+            $("saldoValue").textContent = (data?.saldo ?? 0);
+            return data;
+        }
+
+        async function getMovimientos() {
+            const id = clienteId();
+            $("movEndpoint").textContent = `GET /clientes/${id}/puntos/movimientos`;
+            const r = await fetch(`${base()}/clientes/${id}/puntos/movimientos`);
+            if (!r.ok) throw new Error(await r.text());
+            const arr = await r.json();
+            arr.sort((a, b) => {
+                const ta = new Date(a.created_at || a.createdAt || 0).getTime();
+                const tb = new Date(b.created_at || b.createdAt || 0).getTime();
+                return tb - ta;
+            });
+            renderMov(arr);
+            return arr;
+        }
+
+        function renderMov(arr) {
+            const tb = $("movTbody");
+            $("countMov").textContent = `${arr.length} registro(s)`;
+            if (!arr.length) {
+                tb.innerHTML = `<tr><td colspan="6" class="muted">Aún no hay datos. Presiona “Ver puntos”.</td></tr>`;
+                return;
+            }
+            tb.innerHTML = arr.map(m => {
+                const tipo = (m.tipo || "").toUpperCase();
+                const badgeClass = tipo === "CANJE" ? "badge b-canje" : "badge b-suma";
+                return `
+        <tr>
+          <td>${m.id ?? "—"}</td>
+          <td><span class="${badgeClass}">${tipo || "—"}</span></td>
+          <td class="right">${Number(m.puntos ?? 0)}</td>
+          <td class="right">${Number(m.pesos ?? 0)}</td>
+          <td>${(m.motivo ?? "").toString() || "<span class='muted'>—</span>"}</td>
+          <td>${fmtDate(m.created_at)}</td>
+        </tr>
+      `;
+            }).join("");
+        }
+
+        async function verTodo() {
+            setStatus("", "Consultando saldo + movimientos…");
+            try {
+                await getSaldo();
+                await getMovimientos();
+                setStatus("ok", "Listo ✅ Mostrando saldo + movimientos.");
+            } catch (e) {
+                setStatus("bad", `Error al obtener datos: ${safeJsonText(String(e)).slice(0, 160)}`);
+            }
+        }
+        async function soloMov() {
+            setStatus("", "Consultando movimientos…");
+            try {
+                await getMovimientos();
+                setStatus("ok", "Listo ✅ Mostrando movimientos.");
+            } catch (e) {
+                setStatus("bad", `Error al obtener movimientos: ${safeJsonText(String(e)).slice(0, 160)}`);
+            }
+        }
+
+        async function canjear() {
+            const payload = {
+                cliente_id: clienteId(),
+                sucursal_id: selectedSucursalId(),
+                puntos: parseInt($("puntosCanjear").value || "0", 10),
+                motivo: $("motivoCanje").value.trim()
+            };
+            setStatus("", "Canjeando puntos…");
+            try {
+                const r = await fetch(`${base()}/puntos/canjear`, {
+                    method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload)
+                });
+                if (!r.ok) throw new Error(await r.text());
+                setStatus("ok", "Canje realizado ✅ Actualizando…");
+                await verTodo();
+            } catch (e) {
+                setStatus("bad", `Error al canjear: ${safeJsonText(String(e)).slice(0, 180)}`);
+            }
+        }
+
+        async function sumar() {
+            const payload = {
+                cliente_id: clienteId(),
+                sucursal_id: selectedSucursalId(),
+                pesos: parseInt($("pesosSumar").value || "0", 10),
+                motivo: $("motivoSumar").value.trim()
+            };
+            setStatus("", "Sumando puntos…");
+            try {
+                const r = await fetch(`${base()}/puntos/sumar`, {
+                    method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload)
+                });
+                if (!r.ok) throw new Error(await r.text());
+                setStatus("ok", "Puntos sumados ✅ Actualizando…");
+                await verTodo();
+            } catch (e) {
+                setStatus("bad", `Error al sumar: ${safeJsonText(String(e)).slice(0, 180)}`);
+            }
+        }
+        // --- Paso 6: Caja / Compra (monto -> puntos calculados) ---
+        const PESOS_POR_PUNTO = 100; // debe coincidir con tu backend
+
+        function calcPuntosDesdeMonto(monto) {
+            return Math.floor((monto || 0) / PESOS_POR_PUNTO);
+        }
+
+        $("montoCompra").addEventListener("input", refreshPuntosCalculados);
+        $("btnRegistrarCompra").addEventListener("click", registrarCompra);
+
+        function refreshPuntosCalculados() {
+            const monto = parseInt($("montoCompra").value || "0", 10);
+            $("puntosCalculados").value = calcPuntosDesdeMonto(monto);
+        }
+
+        // Reutiliza el endpoint /puntos/sumar, igual que sumar()
+        async function registrarCompra() {
+            const monto = parseInt($("montoCompra").value || "0", 10);
+            if (monto <= 0) {
+                setStatus("warn", "Ingresa un monto válido.");
+                return;
+            }
+
+            const payload = {
+                cliente_id: clienteId(),
+                sucursal_id: selectedSucursalId(),
+                pesos: monto,
+                motivo: ($("motivoCompra").value || "").trim() || "Compra en caja",
+            };
+
+            setStatus("", "Registrando compra (sumando puntos)…");
+
+            try {
+                const r = await fetch(`${base()}/puntos/sumar`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!r.ok) throw new Error(await r.text());
+
+                setStatus("ok", "Compra registrada ✅ Actualizando…");
+                await verTodo(); // refresca saldo + movimientos
+            } catch (e) {
+                setStatus("bad", `Error registrando compra: ${safeJsonText(String(e)).slice(0, 200)}`);
+            }
+        }
+
+
+
+        // --------- SUCURSALES ----------
+        function setSucursalStatus(kind, text) {
+            const box = $("sucursalStatus"), ic = box.querySelector(".ic"), t = $("sucursalStatusText");
+            box.style.display = "flex";
+            box.classList.remove("ok", "bad", "warn");
+            if (kind === "ok") { box.classList.add("ok"); ic.textContent = "✅"; }
+            else if (kind === "bad") { box.classList.add("bad"); ic.textContent = "✖"; }
+            else if (kind === "warn") { box.classList.add("warn"); ic.textContent = "⚠"; }
+            else { ic.textContent = "🏬"; }
+            t.textContent = text;
+        }
+
+        function syncSucursalToClientField() {
+            const suc = selectedSucursalId();
+            if (Number.isFinite(suc) && suc > 0) $("c_sucursal").value = suc;
+        }
+
+        function fillSucursalSelect(list) {
+            const sel = $("sucursalSelect");
+            const current = sel.value;
+
+            if (!list.length) {
+                sel.innerHTML = `<option value="0">— No hay sucursales —</option>`;
+                return;
+            }
+
+            sel.innerHTML = list.map(s => `<option value="${s.id}">${s.id} — ${s.nombre} (${s.codigo})</option>`).join("");
+
+            if (current && [...sel.options].some(o => o.value === current)) sel.value = current;
+            else sel.value = String(list[0].id);
+
+            syncSucursalToClientField();
+        }
+
+        async function cargarSucursales() {
+            setSucursalStatus("", "Cargando sucursales…");
+            try {
+                const r = await fetch(`${base()}/sucursales`);
+                if (!r.ok) throw new Error(await r.text());
+                const list = await r.json();
+                fillSucursalSelect(list);
+                setSucursalStatus("ok", `Sucursales cargadas ✅ (${list.length}).`);
+            } catch (e) {
+                setSucursalStatus("bad", `Error: ${safeJsonText(String(e)).slice(0, 220)}`);
+            }
+        }
+
+        async function crearSucursal() {
+            setSucursalStatus("", "Creando sucursal…");
+            const payload = {
+                nombre: $("s_nombre").value.trim(),
+                codigo: $("s_codigo").value.trim(),
+                direccion: $("s_direccion").value.trim(),
+                telefono: $("s_telefono").value.trim()
+            };
+            try {
+                const r = await fetch(`${base()}/sucursales`, {
+                    method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload)
+                });
+                if (!r.ok) throw new Error(await r.text());
+                const data = await r.json();
+                setSucursalStatus("ok", `Sucursal creada ✅ ID: ${data?.id ?? "?"}. Actualizando…`);
+                await cargarSucursales();
+                if (data?.id) {
+                    $("sucursalSelect").value = String(data.id);
+                    syncSucursalToClientField();
+                }
+            } catch (e) {
+                setSucursalStatus("bad", `Error: ${safeJsonText(String(e)).slice(0, 220)}`);
+            }
+        }
+
+        // --------- CLIENTES ----------
+        function setClienteStatus(kind, text) {
+            const box = $("clienteStatus"), ic = box.querySelector(".ic"), t = $("clienteStatusText");
+            box.style.display = "flex";
+            box.classList.remove("ok", "bad", "warn");
+            if (kind === "ok") { box.classList.add("ok"); ic.textContent = "✅"; }
+            else if (kind === "bad") { box.classList.add("bad"); ic.textContent = "✖"; }
+            else if (kind === "warn") { box.classList.add("warn"); ic.textContent = "⚠"; }
+            else { ic.textContent = "👤"; }
+            t.textContent = text;
+        }
+
+        async function crearCliente() {
+            setClienteStatus("", "Creando cliente…");
+            const payload = {
+                rut: $("c_rut").value.trim(),
+                nombre: $("c_nombre").value.trim(),
+                telefono: $("c_telefono").value.trim() || null,
+                correo: $("c_correo").value.trim() || null,
+                sucursal_id: parseInt($("c_sucursal").value || "0", 10)
+            };
+            try {
+                const r = await fetch(`${base()}/clientes`, {
+                    method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload)
+                });
+                if (!r.ok) throw new Error(await r.text());
+                const data = await r.json();
+                if (data?.id) {
+                    $("clienteId").value = data.id;
+                    setClienteStatus("ok", `Cliente creado ✅ ID: ${data.id}. Se seleccionó automáticamente.`);
+                    await cargarClientes(true);
+                    await verTodo();
+                } else {
+                    setClienteStatus("warn", `Creado ✅ pero sin "id" en respuesta.`);
+                }
+            } catch (e) {
+                setClienteStatus("bad", `Error: ${safeJsonText(String(e)).slice(0, 220)}`);
+            }
+        }
+
+        // ----- Paso 5: Lista + buscador -----
+        let clientesCache = [];
+
+        function setClientesStatus(kind, text) {
+            const box = $("clientesStatus"), ic = box.querySelector(".ic"), t = $("clientesStatusText");
+            box.style.display = "flex";
+            box.classList.remove("ok", "bad", "warn");
+            if (kind === "ok") { box.classList.add("ok"); ic.textContent = "✅"; }
+            else if (kind === "bad") { box.classList.add("bad"); ic.textContent = "✖"; }
+            else if (kind === "warn") { box.classList.add("warn"); ic.textContent = "⚠"; }
+            else { ic.textContent = "📋"; }
+            t.textContent = text;
+        }
+
+        function renderClientes(list) {
+            const q = $("clienteSearch").value.trim().toLowerCase();
+            const filtered = list.filter(c => {
+                const rut = (c.rut || "").toLowerCase();
+                const nombre = (c.nombre || "").toLowerCase();
+                return !q || rut.includes(q) || nombre.includes(q);
+            });
+
+            const box = $("clientesList");
+
+            if (!filtered.length) {
+                box.innerHTML = `
+        <div class="listItem">
+          <div>
+            <div class="liTitle">Sin resultados</div>
+            <div class="liSub">Prueba otro filtro o carga clientes.</div>
+          </div>
+          <div class="liRight">—</div>
+        </div>`;
+                return;
+            }
+
+            box.innerHTML = filtered.map(c => {
+                const right = `ID ${c.id}`;
+                const sub = `${c.rut || "—"} • ${c.correo || "—"} • ${c.telefono || "—"}`;
+                return `
+        <div class="listItem" data-id="${c.id}">
+          <div>
+            <div class="liTitle">${c.nombre || "—"}</div>
+            <div class="liSub">${sub}</div>
+          </div>
+          <div class="liRight">${right}</div>
+        </div>
+      `;
+            }).join("");
+
+            // click handler
+            [...box.querySelectorAll(".listItem")].forEach(el => {
+                el.addEventListener("click", async () => {
+                    const id = parseInt(el.getAttribute("data-id") || "0", 10);
+                    if (!id) return;
+                    $("clienteId").value = id;
+                    setStatus("ok", `Cliente seleccionado ✅ ID: ${id}.`);
+                    await verTodo();
+                });
+            });
+        }
+
+        async function cargarClientes(silent = false) {
+            if (!silent) setClientesStatus("", "Cargando clientes…");
+            try {
+                const r = await fetch(`${base()}/clientes`);
+                if (!r.ok) throw new Error(await r.text());
+                const list = await r.json(); // [{id,rut,nombre,telefono,correo,sucursal_id}]
+                clientesCache = Array.isArray(list) ? list : [];
+                renderClientes(clientesCache);
+                setClientesStatus("ok", `Clientes cargados ✅ (${clientesCache.length}).`);
+            } catch (e) {
+                setClientesStatus("bad", `Error cargando clientes: ${safeJsonText(String(e)).slice(0, 220)}`);
+            }
+        }
+
+        // filter live
+        function onSearchChange() {
+            renderClientes(clientesCache);
+        }
+
+        // ---------- Events ----------
+        $("btnHealth").addEventListener("click", apiHealth);
+        $("btnVerTodo").addEventListener("click", verTodo);
+        $("btnSoloMov").addEventListener("click", soloMov);
+        $("btnCanjear").addEventListener("click", canjear);
+        $("montoCompra").addEventListener("input", refreshPuntosCalculados);
+        $("btnRegistrarCompra").addEventListener("click", registrarCompra);
+        $("btnSumar").addEventListener("click", sumar);
+
+        $("btnCargarSucursales").addEventListener("click", cargarSucursales);
+        $("btnCrearSucursal").addEventListener("click", crearSucursal);
+        $("sucursalSelect").addEventListener("change", syncSucursalToClientField);
+
+        $("btnCrearCliente").addEventListener("click", crearCliente);
+
+        $("btnCargarClientes").addEventListener("click", () => cargarClientes(false));
+        $("clienteSearch").addEventListener("input", onSearchChange);
+
+        // dejar puntos calculados listos al cargar
+        refreshPuntosCalculados();
+
+        // Auto-start
+        (async () => {
+            const ok = await apiHealth();
+            if (ok) {
+                await cargarSucursales();
+                await cargarClientes(true);
+            }
+        })();
+
+    </script>
+</body>
+
+</html>
