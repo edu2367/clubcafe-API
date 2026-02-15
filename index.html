@@ -1,0 +1,1021 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Club Café — Tienda</title>
+
+    <!-- Tipografía moderna -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #0b0b0c;
+            --bg2: #0f0f12;
+            --card: rgba(255, 255, 255, .06);
+            --card2: rgba(255, 255, 255, .08);
+            --stroke: rgba(255, 255, 255, .10);
+            --stroke2: rgba(255, 255, 255, .16);
+            --text: rgba(255, 255, 255, .92);
+            --muted: rgba(255, 255, 255, .62);
+            --muted2: rgba(255, 255, 255, .44);
+            --white: #fff;
+            --shadow: 0 18px 45px rgba(0, 0, 0, .55);
+            --radius: 18px;
+
+            /* “sello” Club Café (detalle sutil) */
+            --accent: #ffffff;
+            --glow: 0 0 0 4px rgba(255, 255, 255, .06);
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html,
+        body {
+            height: 100%
+        }
+
+        body {
+            margin: 0;
+            font-family: "Manrope", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+            background:
+                radial-gradient(1000px 600px at 15% 10%, rgba(255, 255, 255, .08), transparent 55%),
+                radial-gradient(900px 500px at 85% 20%, rgba(255, 255, 255, .06), transparent 60%),
+                linear-gradient(180deg, var(--bg), var(--bg2));
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        .wrap {
+            width: min(1180px, 100%);
+            margin: 0 auto;
+            padding: 22px 14px 70px;
+        }
+
+        /* Topbar */
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            padding: 14px 0;
+            backdrop-filter: blur(14px);
+            background: linear-gradient(180deg, rgba(11, 11, 12, .88), rgba(11, 11, 12, .55));
+            border-bottom: 1px solid rgba(255, 255, 255, .06);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 900;
+            letter-spacing: .2px;
+        }
+
+        .logoMark {
+            width: 34px;
+            height: 34px;
+            border-radius: 12px;
+            border: 1px solid var(--stroke2);
+            background:
+                radial-gradient(18px 18px at 30% 25%, rgba(255, 255, 255, .25), transparent 55%),
+                linear-gradient(135deg, rgba(255, 255, 255, .12), rgba(255, 255, 255, .04));
+            box-shadow: var(--glow);
+        }
+
+        .brand small {
+            color: var(--muted);
+            font-weight: 700
+        }
+
+        .topActions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 12px;
+            border-radius: 999px;
+            border: 1px solid var(--stroke);
+            background: rgba(255, 255, 255, .04);
+            color: var(--muted);
+            font-weight: 800;
+            font-size: 12px;
+        }
+
+        .btn {
+            border: none;
+            cursor: pointer;
+            padding: 11px 14px;
+            border-radius: 999px;
+            font-weight: 900;
+            letter-spacing: .2px;
+            transition: transform .06s ease, filter .18s ease, background .18s ease, border-color .18s ease;
+            color: var(--white);
+            background: rgba(255, 255, 255, .08);
+            border: 1px solid var(--stroke);
+        }
+
+        .btn:hover {
+            filter: brightness(1.08)
+        }
+
+        .btn:active {
+            transform: translateY(1px)
+        }
+
+        .btnPrimary {
+            background: rgba(255, 255, 255, .92);
+            color: #0b0b0c;
+            border-color: rgba(255, 255, 255, .22);
+        }
+
+        .btnGhost {
+            background: transparent;
+        }
+
+        /* Hero */
+        .hero {
+            display: grid;
+            grid-template-columns: 1.2fr .8fr;
+            gap: 16px;
+            margin-top: 18px;
+        }
+
+        @media(max-width: 980px) {
+            .hero {
+                grid-template-columns: 1fr
+            }
+        }
+
+        .card {
+            background: linear-gradient(180deg, rgba(255, 255, 255, .08), rgba(255, 255, 255, .04));
+            border: 1px solid var(--stroke);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .heroLeft {
+            padding: 22px;
+            position: relative;
+        }
+
+        .kicker {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 7px 11px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, .10);
+            background: rgba(255, 255, 255, .04);
+            color: var(--muted);
+            font-weight: 900;
+            font-size: 12px;
+            margin-bottom: 12px;
+        }
+
+        .heroTitle {
+            font-size: 44px;
+            line-height: 1.05;
+            font-weight: 950;
+            margin: 0 0 12px;
+            letter-spacing: -.6px;
+        }
+
+        @media(max-width: 520px) {
+            .heroTitle {
+                font-size: 34px
+            }
+        }
+
+        .heroSub {
+            margin: 0 0 18px;
+            color: var(--muted);
+            font-weight: 650;
+            line-height: 1.45;
+            max-width: 52ch;
+        }
+
+        .heroCtas {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .heroRight {
+            padding: 18px;
+            display: grid;
+            gap: 12px;
+        }
+
+        .miniCard {
+            border: 1px solid var(--stroke);
+            border-radius: 16px;
+            background: rgba(0, 0, 0, .25);
+            padding: 14px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .miniCard .t {
+            font-weight: 950;
+        }
+
+        .miniCard .s {
+            color: var(--muted);
+            font-weight: 650;
+            font-size: 13px;
+            margin-top: 6px;
+            line-height: 1.35;
+        }
+
+        .miniRow {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-top: 10px;
+            color: var(--muted);
+            font-weight: 800;
+            font-size: 12px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, .9);
+            box-shadow: 0 0 0 4px rgba(255, 255, 255, .06);
+            flex: 0 0 auto;
+        }
+
+        /* Secciones */
+        .sectionHead {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 12px;
+            margin: 22px 2px 10px;
+        }
+
+        .sectionHead h2 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 950;
+            letter-spacing: .2px;
+        }
+
+        .sectionHead p {
+            margin: 0;
+            color: var(--muted);
+            font-weight: 650;
+            font-size: 13px;
+        }
+
+        /* Catálogo */
+        .catalog {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+
+        @media(max-width: 980px) {
+            .catalog {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media(max-width: 520px) {
+            .catalog {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .product {
+            background: rgba(255, 255, 255, .04);
+            border: 1px solid var(--stroke);
+            border-radius: 18px;
+            overflow: hidden;
+            padding: 14px;
+            transition: transform .12s ease, border-color .18s ease, background .18s ease;
+        }
+
+        .product:hover {
+            transform: translateY(-2px);
+            border-color: rgba(255, 255, 255, .18);
+            background: rgba(255, 255, 255, .06);
+        }
+
+        .thumb {
+            height: 150px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, .10);
+            background:
+                radial-gradient(140px 80px at 35% 25%, rgba(255, 255, 255, .20), transparent 60%),
+                radial-gradient(120px 80px at 70% 70%, rgba(255, 255, 255, .10), transparent 60%),
+                linear-gradient(135deg, rgba(255, 255, 255, .08), rgba(255, 255, 255, .03));
+            box-shadow: 0 10px 25px rgba(0, 0, 0, .35);
+            margin-bottom: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tag {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 11px;
+            font-weight: 950;
+            padding: 6px 9px;
+            border-radius: 999px;
+            background: rgba(0, 0, 0, .55);
+            border: 1px solid rgba(255, 255, 255, .14);
+            color: rgba(255, 255, 255, .85);
+            backdrop-filter: blur(8px);
+        }
+
+        .pTitle {
+            font-weight: 950;
+            margin: 0 0 6px;
+        }
+
+        .pDesc {
+            color: var(--muted);
+            font-weight: 650;
+            font-size: 13px;
+            margin: 0 0 12px;
+            line-height: 1.35;
+        }
+
+        .pFoot {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .price {
+            font-weight: 950;
+        }
+
+        .points {
+            color: var(--muted);
+            font-weight: 800;
+            font-size: 12px;
+        }
+
+        /* Drawer carrito */
+        .drawerBackdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .55);
+            display: none;
+            align-items: stretch;
+            justify-content: flex-end;
+            z-index: 50;
+        }
+
+        .drawer {
+            width: min(420px, 92vw);
+            background: rgba(11, 11, 12, .92);
+            border-left: 1px solid rgba(255, 255, 255, .10);
+            backdrop-filter: blur(14px);
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .drawerHead {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .drawerHead .t {
+            font-weight: 950;
+        }
+
+        .xbtn {
+            width: 36px;
+            height: 36px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, .12);
+            background: rgba(255, 255, 255, .06);
+            color: #fff;
+            font-weight: 950;
+            cursor: pointer;
+        }
+
+        .cartList {
+            display: grid;
+            gap: 10px;
+            overflow: auto;
+            padding-right: 2px;
+        }
+
+        .cartItem {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+            border: 1px solid rgba(255, 255, 255, .10);
+            background: rgba(255, 255, 255, .04);
+            border-radius: 16px;
+            padding: 10px;
+        }
+
+        .cartThumb {
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, .10);
+            background: linear-gradient(135deg, rgba(255, 255, 255, .12), rgba(255, 255, 255, .03));
+            flex: 0 0 auto;
+        }
+
+        .ciTitle {
+            font-weight: 900;
+            margin: 0;
+            font-size: 13px;
+        }
+
+        .ciSub {
+            color: var(--muted);
+            font-weight: 650;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        .ciRight {
+            margin-left: auto;
+            text-align: right;
+        }
+
+        .qty {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            justify-content: flex-end;
+            margin-top: 6px;
+        }
+
+        .qbtn {
+            width: 30px;
+            height: 30px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, .12);
+            background: rgba(255, 255, 255, .06);
+            color: #fff;
+            font-weight: 950;
+            cursor: pointer;
+        }
+
+        .summary {
+            border-top: 1px solid rgba(255, 255, 255, .10);
+            padding-top: 12px;
+            display: grid;
+            gap: 8px;
+            color: var(--muted);
+            font-weight: 750;
+        }
+
+        .sumRow {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .sumRow strong {
+            color: rgba(255, 255, 255, .9)
+        }
+
+        .couponRow {
+            display: flex;
+            gap: 10px;
+            margin-top: 4px;
+        }
+
+        .couponRow input {
+            flex: 1;
+            padding: 12px 12px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, .12);
+            background: rgba(255, 255, 255, .06);
+            color: #fff;
+            outline: none;
+        }
+
+        .note {
+            color: var(--muted2);
+            font-size: 12px;
+            font-weight: 650;
+            line-height: 1.35;
+        }
+
+        /* Modal login */
+        .modalBackdrop {
+            position: fixed;
+            inset: 0;
+            display: none;
+            place-items: center;
+            background: rgba(0, 0, 0, .55);
+            z-index: 60;
+            padding: 14px;
+        }
+
+        .modal {
+            width: min(520px, 94vw);
+            background: rgba(11, 11, 12, .92);
+            border: 1px solid rgba(255, 255, 255, .12);
+            border-radius: 18px;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(14px);
+            overflow: hidden;
+        }
+
+        .modalHead {
+            padding: 14px 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, .10);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .modalHead .t {
+            font-weight: 950;
+        }
+
+        .modalBody {
+            padding: 16px;
+            display: grid;
+            gap: 10px;
+        }
+
+        .field label {
+            display: block;
+            color: var(--muted);
+            font-weight: 800;
+            font-size: 12px;
+            margin: 0 0 6px;
+        }
+
+        .field input {
+            width: 100%;
+            padding: 12px 12px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, .12);
+            background: rgba(255, 255, 255, .06);
+            color: #fff;
+            outline: none;
+        }
+
+        .two {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        @media(max-width: 520px) {
+            .two {
+                grid-template-columns: 1fr
+            }
+        }
+
+        /* Animaciones suaves */
+        .fadeIn {
+            animation: fadeIn .42s ease both;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        /* ===== Micro feedback: toast + pop points ===== */
+        .toastWrap {
+            position: fixed;
+            right: 16px;
+            bottom: 16px;
+            display: grid;
+            gap: 10px;
+            z-index: 80;
+            pointer-events: none;
+        }
+
+        .toast {
+            width: min(320px, calc(100vw - 32px));
+            padding: 12px 14px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, .14);
+            background: rgba(11, 11, 12, .88);
+            backdrop-filter: blur(14px);
+            box-shadow: 0 18px 45px rgba(0, 0, 0, .55);
+            color: rgba(255, 255, 255, .92);
+            pointer-events: none;
+            transform: translateY(10px);
+            opacity: 0;
+            animation: toastIn .28s ease forwards, toastOut .38s ease forwards 1.9s;
+        }
+
+        .toast .t {
+            font-weight: 950;
+            margin-bottom: 4px;
+        }
+
+        .toast .s {
+            color: rgba(255, 255, 255, .65);
+            font-weight: 700;
+            font-size: 12px;
+            line-height: 1.25;
+        }
+
+        @keyframes toastIn {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes toastOut {
+            to {
+                transform: translateY(10px);
+                opacity: 0;
+            }
+        }
+
+        /* “pop” suave en el chip de puntos */
+        .chip.pop {
+            animation: chipPop .28s ease;
+            border-color: rgba(255, 255, 255, .22);
+        }
+
+        @keyframes chipPop {
+            0% {
+                transform: scale(1);
+            }
+
+            45% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* mini burbuja +pts cerca del chip */
+        .floatPts {
+            position: fixed;
+            padding: 8px 10px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, .14);
+            background: rgba(255, 255, 255, .10);
+            backdrop-filter: blur(12px);
+            color: rgba(255, 255, 255, .92);
+            font-weight: 950;
+            font-size: 12px;
+            z-index: 90;
+            pointer-events: none;
+            transform: translateY(0);
+            opacity: 0;
+            animation: floatPts .65s ease forwards;
+        }
+
+        @keyframes floatPts {
+            0% {
+                transform: translateY(6px);
+                opacity: 0;
+            }
+
+            25% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-18px);
+                opacity: 0;
+            }
+        }
+    </style>
+
+</head>
+<body>
+
+    <div class="toastWrap" id="toastWrap"></div>
+    <div class="wrap">
+        <div class="topbar">
+            <div class="brand">
+                <div class="logoMark"></div>
+                <div>
+                    Club Café<br>
+                    <small>tienda + puntos automáticos</small>
+                </div>
+            </div>
+
+            <div class="topActions">
+                <div class="chip" id="pointsChip">👑 Puntos: <strong id="pointsValue">0</strong></div>
+                <button class="btn btnGhost" id="btnLogin">Ingresar</button>
+                <button class="btn btnPrimary" id="btnCart">Carrito (<span id="cartCount">0</span>)</button>
+            </div>
+        </div>
+
+        <div class="hero">
+            <div class="card heroLeft fadeIn">
+                <div class="kicker">⚡ Compra online · acumula puntos · canjea altiro</div>
+                <h1 class="heroTitle">Una tienda que vende.<br>Un club que fideliza.</h1>
+                <p class="heroSub">
+                    Estilo Club Café: minimalista, premium y directo. Los puntos se suman automáticamente por compra
+                    (web / delivery / apps). El vendedor no toca nada.
+                </p>
+                <div class="heroCtas">
+                    <button class="btn btnPrimary" onclick="scrollToCatalog()">Ver productos</button>
+                    <button class="btn btnGhost" onclick="openLogin()">Tengo cuenta</button>
+                </div>
+            </div>
+
+            <div class="card heroRight fadeIn">
+                <div class="miniCard">
+                    <div class="t">Puntos automáticos</div>
+                    <div class="s">Cada compra genera puntos en segundo plano. Aquí solo lo ves reflejado.</div>
+                    <div class="miniRow"><span class="dot"></span> 100 pesos = 1 punto (configurable)</div>
+                </div>
+                <div class="miniCard">
+                    <div class="t">Cupones y promos</div>
+                    <div class="s">Códigos de descuento para campañas y fidelización.</div>
+                    <div class="miniRow"><span class="dot"></span> Ej: CLUB10 / ENVIO0</div>
+                </div>
+                <div class="miniCard">
+                    <div class="t">Canjes físicos o gifts</div>
+                    <div class="s">Catálogo de recompensas: productos, regalos, cupones.</div>
+                    <div class="miniRow"><span class="dot"></span> Todo registrable en el sistema</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sectionHead" id="catalogAnchor">
+            <div>
+                <h2>Productos destacados</h2>
+                <p>Demo visual (luego lo conectamos a tu API / Fudo / stock).</p>
+            </div>
+            <div class="chip">🚚 Delivery · Web · Apps</div>
+        </div>
+
+        <div class="catalog" id="catalog"></div>
+    </div>
+
+    <!-- Drawer carrito -->
+    <div class="drawerBackdrop" id="drawerBackdrop">
+        <div class="drawer fadeIn">
+            <div class="drawerHead">
+                <div class="t">Carrito</div>
+                <button class="xbtn" id="btnCloseCart">✕</button>
+            </div>
+
+            <div class="cartList" id="cartList"></div>
+
+            <div class="summary">
+                <div class="sumRow"><span>Subtotal</span><strong id="subTotal">$0</strong></div>
+                <div class="sumRow"><span>Descuento</span><strong id="discount">$0</strong></div>
+                <div class="sumRow"><span>Total</span><strong id="total">$0</strong></div>
+                <div class="sumRow"><span>Puntos a sumar</span><strong id="pointsEarn">0 pts</strong></div>
+
+                <div class="couponRow">
+                    <input id="coupon" placeholder="Cupón (ej: CLUB10)" />
+                    <button class="btn" onclick="applyCoupon()">Aplicar</button>
+                </div>
+                <div class="note">*Demo. Luego esto se conecta al backend: compra → Fudo → puntos → movimientos.</div>
+
+                <button class="btn btnPrimary" onclick="checkout()">Pagar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal login -->
+    <div class="modalBackdrop" id="modalBackdrop">
+        <div class="modal fadeIn">
+            <div class="modalHead">
+                <div class="t">Ingresar</div>
+                <button class="xbtn" onclick="closeLogin()">✕</button>
+            </div>
+            <div class="modalBody">
+                <div class="two">
+                    <div class="field">
+                        <label>RUT / Email</label>
+                        <input id="userId" placeholder="12.345.678-9 o correo" />
+                    </div>
+                    <div class="field">
+                        <label>Clave</label>
+                        <input id="pass" type="password" placeholder="••••••••" />
+                    </div>
+                </div>
+                <button class="btn btnPrimary" onclick="fakeLogin()">Entrar</button>
+                <div class="note">*Demo visual. Después lo conectamos a tu login real.</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ---------- Demo data ----------
+        const PESOS_POR_PUNTO = 100;
+        const products = [
+            { id: 1, name: "Latte Vainilla", desc: "Suave, cremoso y premium.", price: 3490, tag: "Top" },
+            { id: 2, name: "Capuccino Intenso", desc: "Espuma perfecta, sabor fuerte.", price: 3290, tag: "Nuevo" },
+            { id: 3, name: "Cold Brew", desc: "Frío, limpio, directo.", price: 3690, tag: "Frío" },
+            { id: 4, name: "Muffin Chocolate", desc: "Denso, dulce, brutal.", price: 2490, tag: "Snack" },
+            { id: 5, name: "Tostado Club", desc: "Pan crujiente + queso.", price: 2990, tag: "Rápido" },
+            { id: 6, name: "Box Desayuno", desc: "Combo ideal para comenzar.", price: 5990, tag: "Combo" },
+            { id: 7, name: "Gift Card $10.000", desc: "Regala Club Café.", price: 10000, tag: "Gift" },
+            { id: 8, name: "Café en Grano 250g", desc: "Aroma y calidad.", price: 7990, tag: "Premium" },
+        ];
+
+        let cart = [];
+        let points = 0;
+        let discountPct = 0;
+
+        const $ = (id) => document.getElementById(id);
+
+        function money(n) {
+            return "$" + (n || 0).toLocaleString("es-CL");
+        }
+        function calcPointsFromPesos(pesos) {
+            return Math.floor((pesos || 0) / PESOS_POR_PUNTO);
+        }
+
+        function scrollToCatalog() {
+            $("catalogAnchor").scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+
+        // ---------- Render catalog ----------
+        function renderCatalog() {
+            const box = $("catalog");
+            box.innerHTML = products.map(p => `
+        <div class="product">
+          <div class="thumb">
+            <div class="tag">${p.tag}</div>
+          </div>
+          <div class="pTitle">${p.name}</div>
+          <div class="pDesc">${p.desc}</div>
+          <div class="pFoot">
+            <div>
+              <div class="price">${money(p.price)}</div>
+              <div class="points">+${calcPointsFromPesos(p.price)} pts</div>
+            </div>
+            <button class="btn btnPrimary" onclick="addToCart(${p.id})">Agregar</button>
+          </div>
+        </div>
+      `).join("");
+        }
+
+        // ---------- Cart ----------
+        function addToCart(id) {
+            const p = products.find(x => x.id === id);
+            if (!p) return;
+            const found = cart.find(x => x.id === id);
+            if (found) found.qty += 1;
+            else cart.push({ id, qty: 1 });
+            openCart();
+            renderCart();
+        }
+
+        function setQty(id, delta) {
+            const item = cart.find(x => x.id === id);
+            if (!item) return;
+            item.qty += delta;
+            if (item.qty <= 0) cart = cart.filter(x => x.id !== id);
+            renderCart();
+        }
+
+        function totals() {
+            let subtotal = 0;
+            cart.forEach(ci => {
+                const p = products.find(x => x.id === ci.id);
+                subtotal += (p?.price || 0) * ci.qty;
+            });
+            const discount = Math.floor(subtotal * (discountPct / 100));
+            const total = Math.max(0, subtotal - discount);
+            return { subtotal, discount, total };
+        }
+
+        function renderCart() {
+            $("cartCount").textContent = cart.reduce((a, b) => a + b.qty, 0);
+
+            const list = $("cartList");
+            if (!cart.length) {
+                list.innerHTML = `<div class="note">Carrito vacío. Agrega productos para ver el flujo completo.</div>`;
+            } else {
+                list.innerHTML = cart.map(ci => {
+                    const p = products.find(x => x.id === ci.id);
+                    const line = (p?.price || 0) * ci.qty;
+                    return `
+            <div class="cartItem">
+              <div class="cartThumb"></div>
+              <div>
+                <p class="ciTitle">${p?.name || "Producto"}</p>
+                <div class="ciSub">${money(p?.price || 0)} · +${calcPointsFromPesos(p?.price || 0)} pts c/u</div>
+                <div class="qty">
+                  <button class="qbtn" onclick="setQty(${ci.id},-1)">−</button>
+                  <div style="min-width:22px;text-align:center;font-weight:950">${ci.qty}</div>
+                  <button class="qbtn" onclick="setQty(${ci.id},1)">+</button>
+                </div>
+              </div>
+              <div class="ciRight">
+                <div style="font-weight:950">${money(line)}</div>
+              </div>
+            </div>
+          `;
+                }).join("");
+            }
+
+            const { subtotal, discount, total } = totals();
+            $("subTotal").textContent = money(subtotal);
+            $("discount").textContent = money(discount);
+            $("total").textContent = money(total);
+            $("pointsEarn").textContent = `${calcPointsFromPesos(total)} pts`;
+        }
+
+        function applyCoupon() {
+            const code = ($("coupon").value || "").trim().toUpperCase();
+            // Demo cupones
+            if (code === "CLUB10") discountPct = 10;
+            else if (code === "ENVIO0") discountPct = 5;
+            else discountPct = 0;
+            renderCart();
+        }
+
+        function checkout() {
+            const { total } = totals();
+            if (total <= 0) {
+                alert("Agrega productos primero 🙂");
+                return;
+            }
+            const earned = calcPointsFromPesos(total);
+            points += earned;
+            $("pointsValue").textContent = points;
+
+            // Reset demo
+            cart = [];
+            discountPct = 0;
+            $("coupon").value = "";
+            renderCart();
+
+            alert(`Compra realizada ✅\nTotal: ${money(total)}\nPuntos sumados: ${earned} pts\n\n(Después conectamos esto a tu backend + Fudo)`);
+            closeCart();
+        }
+
+        // ---------- Drawer controls ----------
+        function openCart() {
+            $("drawerBackdrop").style.display = "flex";
+        }
+        function closeCart() {
+            $("drawerBackdrop").style.display = "none";
+        }
+
+        // ---------- Login modal ----------
+        function openLogin() {
+            $("modalBackdrop").style.display = "grid";
+        }
+        function closeLogin() {
+            $("modalBackdrop").style.display = "none";
+        }
+        function fakeLogin() {
+            closeLogin();
+            alert("Listo ✅ (Demo). Ahora te muestro puntos + compras.");
+        }
+
+        // Events
+        $("btnCart").addEventListener("click", () => { openCart(); renderCart(); });
+        $("btnCloseCart").addEventListener("click", closeCart);
+        $("drawerBackdrop").addEventListener("click", (e) => { if (e.target.id === "drawerBackdrop") closeCart(); });
+
+        $("btnLogin").addEventListener("click", openLogin);
+        $("modalBackdrop").addEventListener("click", (e) => { if (e.target.id === "modalBackdrop") closeLogin(); });
+
+        // Init
+        renderCatalog();
+        renderCart();
+        $("pointsValue").textContent = points;
+
+    </script>
+</body>
+
+</html>
